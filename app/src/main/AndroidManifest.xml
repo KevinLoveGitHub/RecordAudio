@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="org.lovedev.recordaudio"
 		  xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 	<application
 		android:allowBackup="true"
@@ -15,6 +17,8 @@
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
+		</activity>
+		<activity android:name=".AudioRecordTest">
 		</activity>
 	</application>
 
