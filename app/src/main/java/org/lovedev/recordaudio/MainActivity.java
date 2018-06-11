@@ -2,6 +2,7 @@ package org.lovedev.recordaudio;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,13 +12,16 @@ import android.util.Log;
 import android.view.View;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final String PATH_NAME
-            = Environment.getExternalStorageDirectory().getPath() + "/recorded_audio" + System.currentTimeMillis() + ".aac";
+            = Environment.getExternalStorageDirectory().getPath() + "/recorded_audio" + System.currentTimeMillis() + ".m4a";
+    private static final String PLAY_FILE_PATH
+            = Environment.getExternalStorageDirectory().getPath() + "/123.flac";
     private MediaRecorder mRecorder;
 
     @Override
@@ -28,19 +32,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void start(View view) {
-        //        File file = new File(PATH_NAME);
-        //        if (file.exists()) {
-        //            file.delete();
-        //        }
-        //
-        //        try {
-        //            file.createNewFile();
-        //        } catch (IOException e) {
-        //            e.printStackTrace();
-        //        }
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         mRecorder.setOutputFile(PATH_NAME);
         try {
@@ -68,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
         mRecorder.stop();
         scanFileAsync(this, PATH_NAME);
         releaseMediaRecorder();
+    }
+
+    public void play(View view) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            File file = new File(PLAY_FILE_PATH);
+            FileInputStream fis = new FileInputStream(file);
+            mediaPlayer.setDataSource(fis.getFD());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
